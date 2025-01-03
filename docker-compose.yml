@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    image: app
+    ports:
+      - "8080:8080"
+    build:
+      context: src/main/docker
+    container_name: app
+    depends_on:
+      - mysql-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/demo
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL5InnoDBDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  mysql-server:
+    image: mysql:8.0.27
+    platform: linux/x86_64
+    ports:
+      - 3399:3306
+    restart: always
+    volumes:
+      - ./mysql/data:/var/lib/mysql # nếu để dòng này thì dòng bên dưới sẽ không có tác dụng
+      - ./mysql/sql/:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8888:80
+    restart: always
+    environment:
+      - PMA_HOST=mysql-server
+    depends_on:
+      - "mysql-server"
