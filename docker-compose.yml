@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     build:
-      context: src/main/docker
+      context: .
     container_name: app
     depends_on:
       - mysql-server
