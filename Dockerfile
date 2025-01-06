@@ -11,3 +11,7 @@ COPY ${JAR_FILE} application.jar
 
 # Run your Java application
 CMD ["java", "-jar", "myapp.jar", "$JAVA_OPTS"]
+
+
+
+test2 commit
