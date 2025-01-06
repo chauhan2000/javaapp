@@ -14,3 +14,5 @@ CMD ["java", "-jar", "myapp.jar", "$JAVA_OPTS"]
 
 
 test1 changes
+I want both the changes
+test2 commit
